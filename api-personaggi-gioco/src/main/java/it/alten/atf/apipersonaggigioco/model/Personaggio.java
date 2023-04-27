@@ -1,17 +1,19 @@
 package it.alten.atf.apipersonaggigioco.model;
 
+import java.util.Objects;
+
 public class Personaggio {
 
     private String nome;
     private String descrizione;
-    private int base_atk;
-    private int base_def;
-    private int inc_atk;
-    private int inc_def;
+    private int base_atk; // attacco base
+    private int base_def; // difesa base
+    private int inc_atk; // incremento attacco per livello
+    private int inc_def; // incremento difesa per livello
 
     public Personaggio(String nome, String descrizione, int base_atk, int base_def, int inc_atk, int inc_def){
-        this.nome = nome;
-        this.descrizione = descrizione;
+        setNome(nome);
+        setDescrizione(descrizione);
         setBase_atk(base_atk);
         setBase_def(base_def);
         setInc_atk(inc_atk);
@@ -98,5 +100,37 @@ public class Personaggio {
             throw new IllegalArgumentException();
         }
         return this.base_def + (level-1) * this.inc_def;
+    }
+
+    private String compareString(String strAggiornamento, String strDatabase){
+        if(strAggiornamento == null){
+            return strDatabase;
+        }
+        else{
+            return strAggiornamento;
+        }
+    }
+
+    private int compareInt(int intAggiornamento, int intDatabase){
+        if(intAggiornamento != 0){
+            return intDatabase;
+        }
+        else{
+            return intAggiornamento;
+        }
+    }
+
+    public void comparePersonaggio(Personaggio p){
+        String descrizione = p.getDescrizione();
+        int base_atk = p.getBase_atk();
+        int base_def = p.getBase_def();
+        int inc_atk = p.getInc_atk();
+        int inc_def = p.getInc_def();
+
+        setDescrizione(this.compareString(descrizione ,this.getDescrizione()));
+        setBase_atk(this.compareInt(base_atk, this.getBase_atk()));
+        setBase_def(this.compareInt(base_def, this.getBase_def()));
+        setInc_atk(this.compareInt(inc_atk, this.getInc_atk()));
+        setInc_def(this.compareInt(inc_def, this.getInc_def()));
     }
 }
