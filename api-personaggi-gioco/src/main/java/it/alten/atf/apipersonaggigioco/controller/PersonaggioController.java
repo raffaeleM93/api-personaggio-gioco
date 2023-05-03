@@ -1,5 +1,7 @@
 package it.alten.atf.apipersonaggigioco.controller;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import it.alten.atf.apipersonaggigioco.model.Personaggio;
 import it.alten.atf.apipersonaggigioco.model.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.service.PersonaggioService;
@@ -20,21 +22,26 @@ public class PersonaggioController {
 
     //CREATE
     @PostMapping("")
-    public void creaPersonaggio(@RequestBody Personaggio p){
-        service.savePersonaggio(p);
+    @ApiResponses(value = {
+                  @ApiResponse(code = 201, message = "Personaggio creato!", response = Personaggio.class)
+    }) // --> ?
+    public ResponseEntity<Personaggio> creaPersonaggio(@RequestBody Personaggio p){
+        Personaggio saved = service.savePersonaggio(p);
+        return ResponseEntity.created(null).body(saved);
     }
 
     //READ
     @GetMapping("")
-    public List<Personaggio> getPersonaggi(){
-        return service.getAllPersonaggi();
+    public ResponseEntity<List<Personaggio>> getPersonaggi(){
+        var saved = service.getAllPersonaggi();
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/{nome}")
     public ResponseEntity<Personaggio> getPersonaggio(@PathVariable String nome){
         try{
-            Personaggio p = service.getPersoggioByName(nome);
-            return new ResponseEntity<Personaggio>(p, HttpStatus.OK);
+            Personaggio p = service.getPersonaggioByName(nome);
+            return ResponseEntity.ok(p);
         }
         catch(NoSuchElementException e){
             return new ResponseEntity<Personaggio>(HttpStatus.NOT_FOUND);
@@ -44,7 +51,7 @@ public class PersonaggioController {
     @GetMapping("/{nome}/{level}")
     public ResponseEntity<PersonaggioLevel> getPersonaggioLevel(@PathVariable String nome, int level){
         try{
-            Personaggio p = service.getPersoggioByName(nome);
+            Personaggio p = service.getPersonaggioByName(nome);
             PersonaggioLevel pl = new PersonaggioLevel(p, level);
             return new ResponseEntity<PersonaggioLevel>(pl, HttpStatus.OK);
         }
@@ -55,18 +62,10 @@ public class PersonaggioController {
 
     //UPDATE
     @PutMapping("/{nome}")
-    public ResponseEntity<?> updatePersonaggio(@RequestBody Personaggio p, @PathVariable String nome){
+    public ResponseEntity<Personaggio> updatePersonaggio(@RequestBody Personaggio p, @PathVariable String nome){
         try{
-            if(service.existByName(nome)){
-                Personaggio p1 = service.getPersoggioByName(nome);
-                p1.comparePersonaggio(p);
-                service.savePersonaggio(p1);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else {
-                service.savePersonaggio(p);
-                return new ResponseEntity<>(HttpStatus.CREATED);
-            }
+            Personaggio personaggio = service.updatePersonaggio(p, nome);
+            return ResponseEntity.ok(personaggio);
         }
         catch(NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,7 +74,7 @@ public class PersonaggioController {
 
     //DELETE
     @DeleteMapping("/{nome}")
-    public ResponseEntity<?> deletePersonaggio(@PathVariable String nome){
+    public ResponseEntity<Personaggio> deletePersonaggio(@PathVariable String nome){
         try{
             service.deletePersonaggioByName(nome);
             return new ResponseEntity<>(HttpStatus.OK);

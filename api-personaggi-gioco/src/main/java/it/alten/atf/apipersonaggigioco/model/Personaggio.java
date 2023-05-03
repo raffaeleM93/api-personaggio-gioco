@@ -1,7 +1,5 @@
 package it.alten.atf.apipersonaggigioco.model;
 
-import java.util.Objects;
-
 public class Personaggio {
 
     private String nome;
@@ -112,7 +110,7 @@ public class Personaggio {
     }
 
     private int compareInt(int intAggiornamento, int intDatabase){
-        if(intAggiornamento != 0){
+        if(intAggiornamento == 0){
             return intDatabase;
         }
         else{
