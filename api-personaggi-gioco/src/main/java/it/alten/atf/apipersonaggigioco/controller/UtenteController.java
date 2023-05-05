@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiResponses;
 import it.alten.atf.apipersonaggigioco.model.Personaggio;
 import it.alten.atf.apipersonaggigioco.model.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.model.Utente;
+import it.alten.atf.apipersonaggigioco.model.UtentePersonaggi;
 import it.alten.atf.apipersonaggigioco.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class UtenteController {
 
     //READ
     @GetMapping("")
-    public ResponseEntity<List<Utente>> getUtenti(){
-        var saved = service.getAllUtenti();
+    public ResponseEntity<List<UtentePersonaggi>> getUtenti(){
+        var saved = service.getAllUtentePersonaggi();
         return ResponseEntity.ok(saved);
     }
 

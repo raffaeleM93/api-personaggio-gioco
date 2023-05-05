@@ -15,6 +15,8 @@ public class Utente {
         setRegistrazione(registrazione);
     }
 
+    public Utente(){}
+
     public String getUsername() {
         return username;
     }

@@ -20,4 +20,11 @@ public class UtentePersonaggi extends Utente {
     public void setPersonaggi(List<Personaggio> personaggi) {
         Collections.copy(this.personaggi, personaggi);
     }
+
+    @Override
+    public String toString() {
+        return "UtentePersonaggi{" +
+                "personaggi=" + personaggi +
+                '}';
+    }
 }
