@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -43,13 +44,13 @@ public class PersonaggioController {
             Personaggio p = service.getPersonaggioByName(nome);
             return ResponseEntity.ok(p);
         }
-        catch(NoSuchElementException e){
+        catch(EntityNotFoundException e){
             return new ResponseEntity<Personaggio>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{nome}/{level}")
-    public ResponseEntity<PersonaggioLevel> getPersonaggioLevel(@PathVariable String nome, int level){
+    public ResponseEntity<PersonaggioLevel> getPersonaggioLevel(@PathVariable String nome, @PathVariable int level){
         try{
             Personaggio p = service.getPersonaggioByName(nome);
             PersonaggioLevel pl = new PersonaggioLevel(p, level);

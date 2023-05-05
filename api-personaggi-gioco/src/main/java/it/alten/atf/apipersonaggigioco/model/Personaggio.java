@@ -18,6 +18,10 @@ public class Personaggio {
         setInc_def(inc_def);
     }
 
+    public Personaggio(){
+
+    }
+
     public String getNome() {
         return nome;
     }
@@ -130,5 +134,17 @@ public class Personaggio {
         setBase_def(this.compareInt(base_def, this.getBase_def()));
         setInc_atk(this.compareInt(inc_atk, this.getInc_atk()));
         setInc_def(this.compareInt(inc_def, this.getInc_def()));
+    }
+
+    @Override
+    public String toString() {
+        return "Personaggio{" +
+                "nome='" + nome + '\'' +
+                ", descrizione='" + descrizione + '\'' +
+                ", base_atk=" + base_atk +
+                ", base_def=" + base_def +
+                ", inc_atk=" + inc_atk +
+                ", inc_def=" + inc_def +
+                '}';
     }
 }

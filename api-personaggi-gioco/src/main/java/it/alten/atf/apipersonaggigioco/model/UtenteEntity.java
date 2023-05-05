@@ -5,10 +5,12 @@ import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
+@Table(name = "Utente")
 public class UtenteEntity {
 
     @Id
@@ -25,6 +27,10 @@ public class UtenteEntity {
         setUsername(username);
         setNome(nome);
         setRegistrazione(registrazione);
+    }
+
+    public UtenteEntity(){
+
     }
 
     public String getUsername() {

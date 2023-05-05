@@ -1,11 +1,10 @@
 package it.alten.atf.apipersonaggigioco.model;
 import com.sun.istack.NotNull;
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
-
 @Entity
+@Table(name = "Personaggio")
 public class PersonaggioEntity {
 
     @Id
@@ -34,6 +33,10 @@ public class PersonaggioEntity {
         setBase_def(base_def);
         setInc_atk(inc_atk);
         setInc_def(inc_def);
+    }
+
+    public PersonaggioEntity(){
+
     }
 
     public String getNome() {
