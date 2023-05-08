@@ -28,26 +28,36 @@ public class UtenteController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Utente creato!", response = Utente.class)
     }) // --> ?
-    public ResponseEntity<Utente> creaPersonaggio(@RequestBody Utente u){
-        Utente saved = service.saveUtente(u);
-        return ResponseEntity.created(null).body(saved);
+    public ResponseEntity<Utente> creaUtente(@RequestBody Utente u){
+        try{
+            Utente saved = service.saveUtente(u);
+            return ResponseEntity.created(null).body(saved);
+        }
+        catch(EntityNotFoundException e){
+            return new ResponseEntity<Utente>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //READ
     @GetMapping("")
     public ResponseEntity<List<UtentePersonaggi>> getUtenti(){
-        var saved = service.getAllUtentePersonaggi();
-        return ResponseEntity.ok(saved);
+        try{
+            var saved = service.getAllUtentiPersonaggi();
+            return ResponseEntity.ok(saved);
+        }
+        catch(EntityNotFoundException e){
+            return new ResponseEntity<List<UtentePersonaggi>>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<Utente> getUtente(@PathVariable String username){
+    public ResponseEntity<UtentePersonaggi> getUtente(@PathVariable String username){
         try{
-            Utente p = service.getUtenteByUsername(username);
+            UtentePersonaggi p = service.getUtenteByUsername(username);
             return ResponseEntity.ok(p);
         }
         catch(EntityNotFoundException e){
-            return new ResponseEntity<Utente>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<UtentePersonaggi>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -60,6 +70,18 @@ public class UtenteController {
         }
         catch(NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Assegna un personaggio a un utente
+    @PutMapping("/{username}/{nome}")
+    public ResponseEntity<Personaggio> assignPersonaggio(@PathVariable String username, @PathVariable String nome){
+        try{
+            Personaggio personaggio = service.addPersonaggio(username, nome);
+            return ResponseEntity.ok(personaggio);
+        }
+        catch(EntityNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

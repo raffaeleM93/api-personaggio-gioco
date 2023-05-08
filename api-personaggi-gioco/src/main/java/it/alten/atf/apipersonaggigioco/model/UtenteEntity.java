@@ -21,7 +21,7 @@ public class UtenteEntity {
     private LocalDate registrazione;
 
     @ManyToMany(mappedBy = "utenti")
-    Set<PersonaggioEntity> personaggi;
+    private Set<PersonaggioEntity> personaggi;
 
     public UtenteEntity(String username, String nome, LocalDate registrazione){
         setUsername(username);
@@ -31,6 +31,19 @@ public class UtenteEntity {
 
     public UtenteEntity(){
 
+    }
+
+    public PersonaggioEntity addPersonaggio(PersonaggioEntity pe){
+        this.personaggi.add(pe);
+        return pe;
+    }
+
+    public Set<PersonaggioEntity> getPersonaggi() {
+        return personaggi;
+    }
+
+    public void setPersonaggi(Set<PersonaggioEntity> personaggi) {
+        this.personaggi = personaggi;
     }
 
     public String getUsername() {
@@ -56,10 +69,5 @@ public class UtenteEntity {
     public void setRegistrazione(LocalDate registrazione) {
         this.registrazione = registrazione;
     }
-
-
-
-
-
 
 }

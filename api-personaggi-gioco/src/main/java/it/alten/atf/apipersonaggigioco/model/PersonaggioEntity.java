@@ -39,6 +39,14 @@ public class PersonaggioEntity {
 
     }
 
+    public Set<UtenteEntity> getUtenti() {
+        return utenti;
+    }
+
+    public void setUtenti(Set<UtenteEntity> utenti) {
+        this.utenti = utenti;
+    }
+
     public String getNome() {
         return nome;
     }
