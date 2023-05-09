@@ -51,7 +51,6 @@ public class UtenteService {
         // controllo se utente esiste
         if(utenteRepository.existsById(username)){
             UtenteEntity ue = utenteRepository.getReferenceById(username);
-            System.out.println("UtenteEntity Personaggi: " + ue.getPersonaggi());
             // controllo se personaggio esiste
             if(personaggioRepository.existsById(nome)){
                 PersonaggioEntity pe = personaggioRepository.getReferenceById(nome);

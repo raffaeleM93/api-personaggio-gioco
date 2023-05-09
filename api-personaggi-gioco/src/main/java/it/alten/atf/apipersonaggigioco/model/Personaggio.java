@@ -92,20 +92,6 @@ public class Personaggio {
         }
     }
 
-    public int attacco(int level){
-        if(level < 1){
-            throw new IllegalArgumentException();
-        }
-        return this.base_atk + (level-1) * this.inc_atk;
-    }
-
-    public int difesa(int level){
-        if(level < 1){
-            throw new IllegalArgumentException();
-        }
-        return this.base_def + (level-1) * this.inc_def;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

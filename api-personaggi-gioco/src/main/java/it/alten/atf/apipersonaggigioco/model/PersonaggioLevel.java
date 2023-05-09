@@ -10,8 +10,8 @@ public class PersonaggioLevel {
     public PersonaggioLevel(Personaggio p, int level){
         setNome(p.getNome());
         setDescrizione(p.getDescrizione());
-        this.level_atk = p.attacco(level);
-        this.level_def = p.difesa(level);
+        this.level_atk = this.attacco(level, p.getBase_atk(), p.getInc_atk());
+        this.level_def = this.difesa(level, p.getBase_def(), p.getInc_def());
     }
 
     public String getNome() {
@@ -44,5 +44,19 @@ public class PersonaggioLevel {
 
     public void setLevel_def(int level_def) {
         this.level_def = level_def;
+    }
+
+    public int attacco(int level, int base_atk, int inc_atk){
+        if(level < 1){
+            throw new IllegalArgumentException();
+        }
+        return base_atk + (level-1) * inc_atk;
+    }
+
+    public int difesa(int level, int base_def, int inc_def){
+        if(level < 1){
+            throw new IllegalArgumentException();
+        }
+        return base_def + (level-1) * inc_def;
     }
 }
