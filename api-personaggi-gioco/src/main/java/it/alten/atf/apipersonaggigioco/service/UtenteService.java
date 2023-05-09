@@ -19,8 +19,9 @@ public class UtenteService {
     @Autowired
     private UtenteRepository utenteRepository;
     @Autowired
-    private PersonaggioRepository personaggioRepository; // --> ?
+    private PersonaggioRepository personaggioRepository; // --> ? iniettato un'istanza di PersonaggioRepository all'interno di UtenteService
 
+    @Transactional
     public Utente saveUtente(Utente u) {
         Utente u1 = new Utente(u.getUsername(), u.getNome(), u.getRegistrazione());
         UtenteEntity ue = new UtenteEntity(u1.getUsername(), u1.getNome(), u1.getRegistrazione());
@@ -31,6 +32,7 @@ public class UtenteService {
 
     @Transactional
     public Utente updateUtente(Utente u, String username){
+        // aggiornamento
         if(utenteRepository.existsById(username)){
             UtenteEntity ue = utenteRepository.getReferenceById(username);
             ue.setUsername(u.getUsername());
@@ -39,18 +41,21 @@ public class UtenteService {
             utenteRepository.flush();
             return new Utente(ue.getUsername(), ue.getNome(), ue.getRegistrazione());
         }
-        else{
+        else{ // creazione
             return saveUtente(u);
         }
     }
 
     @Transactional
     public Personaggio addPersonaggio(String username, String nome){
+        // controllo se utente esiste
         if(utenteRepository.existsById(username)){
             UtenteEntity ue = utenteRepository.getReferenceById(username);
+            System.out.println("UtenteEntity Personaggi: " + ue.getPersonaggi());
+            // controllo se personaggio esiste
             if(personaggioRepository.existsById(nome)){
                 PersonaggioEntity pe = personaggioRepository.getReferenceById(nome);
-                PersonaggioEntity pe_add = ue.addPersonaggio(pe);
+                PersonaggioEntity pe_add = ue.addPe(pe);
                 utenteRepository.flush();
                 return new Personaggio(pe_add.getNome(), pe_add.getDescrizione(), pe_add.getBase_atk(), pe_add.getBase_def(), pe_add.getInc_atk(), pe_add.getInc_def());
             }
@@ -63,28 +68,38 @@ public class UtenteService {
         }
     }
 
-    public ArrayList<UtentePersonaggi> getAllUtentiPersonaggi() {
+    @Transactional
+    public List<UtentePersonaggi> getAllUtentiPersonaggi() {
 
-        List<PersonaggioEntity> pe_array = personaggioRepository.findAll();
-        List<UtentePersonaggi> up = new ArrayList<>();
+        // Recupero tutti gli utenti
+        List<UtenteEntity> ueList = utenteRepository.findAll();
+        // Lista vuota che dovrò ritornare al metodo
+        List<UtentePersonaggi> upList = new ArrayList<>();
 
-        for(var el : pe_array){
+        // Per ogni utente costruisco UtentePersonaggi
+        for(var ue : ueList){
+
             Set<Personaggio> setP = new HashSet<Personaggio>();
 
-            for(var pe2 : el.g()){
-                setP.add(new Personaggio(pe2.getNome(), pe2.getDescrizione(), pe2.getBase_atk(), pe2.getBase_def(), pe2.getInc_atk(), pe2.getInc_def()));
+            // wrapping PersonaggioEntity -> Personaggio
+            for(var pe : ue.getPersonaggi()){
+                setP.add(new Personaggio(pe.getNome(), pe.getDescrizione(), pe.getBase_atk(), pe.getBase_def(), pe.getInc_atk(), pe.getInc_def()));
             }
-            UtentePersonaggi temp = new UtentePersonaggi(ue.getUsername(), ue.getNome(), ue.getRegistrazione(), setP);
-            up.add(temp);
+
+            UtentePersonaggi up = new UtentePersonaggi(ue.getUsername(), ue.getNome(), ue.getRegistrazione(), setP);
+            upList.add(up);
         }
+        return upList;
     }
 
-    public UtentePersonaggi getUtenteByUsername(String username) {
+    public UtentePersonaggi getUtentePersonaggiByUsername(String username) {
+        // controllo se esiste l'utente
         if(utenteRepository.existsById(username)){
             UtenteEntity ue = utenteRepository.getReferenceById(username);
 
             Set<Personaggio> setP = new HashSet<Personaggio>();
 
+            // wrapping PersonaggioEntity -> Personaggio
             for(var pe2 : ue.getPersonaggi()){
                 setP.add(new Personaggio(pe2.getNome(), pe2.getDescrizione(), pe2.getBase_atk(), pe2.getBase_def(), pe2.getInc_atk(), pe2.getInc_def()));
             }
@@ -96,6 +111,6 @@ public class UtenteService {
     }
 
     public void deleteUtenteByUsername(String username) {
-
+        utenteRepository.deleteById(username);
     }
 }

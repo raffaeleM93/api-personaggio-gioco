@@ -1,6 +1,7 @@
 package it.alten.atf.apipersonaggigioco.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class Utente {
@@ -39,6 +40,19 @@ public class Utente {
 
     public void setRegistrazione(LocalDate registrazione) {
         this.registrazione = registrazione;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utente)) return false;
+        Utente utente = (Utente) o;
+        return Objects.equals(username, utente.username) && Objects.equals(nome, utente.nome) && Objects.equals(registrazione, utente.registrazione);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, nome, registrazione);
     }
 }
 

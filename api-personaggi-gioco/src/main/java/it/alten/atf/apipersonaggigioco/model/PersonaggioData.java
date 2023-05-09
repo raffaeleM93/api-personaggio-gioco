@@ -2,17 +2,15 @@ package it.alten.atf.apipersonaggigioco.model;
 
 import java.util.Objects;
 
-public class Personaggio {
+public class PersonaggioData {
 
-    private String nome;
     private String descrizione;
     private int base_atk; // attacco base
     private int base_def; // difesa base
     private int inc_atk; // incremento attacco per livello
     private int inc_def; // incremento difesa per livello
 
-    public Personaggio(String nome, String descrizione, int base_atk, int base_def, int inc_atk, int inc_def){
-        setNome(nome);
+    public PersonaggioData(String descrizione, int base_atk, int base_def, int inc_atk, int inc_def){
         setDescrizione(descrizione);
         setBase_atk(base_atk);
         setBase_def(base_def);
@@ -20,16 +18,8 @@ public class Personaggio {
         setInc_def(inc_def);
     }
 
-    public Personaggio(){
+    public PersonaggioData(){
 
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getDescrizione() {
@@ -104,30 +94,5 @@ public class Personaggio {
             throw new IllegalArgumentException();
         }
         return this.base_def + (level-1) * this.inc_def;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Personaggio)) return false;
-        Personaggio that = (Personaggio) o;
-        return base_atk == that.base_atk && base_def == that.base_def && inc_atk == that.inc_atk && inc_def == that.inc_def && Objects.equals(nome, that.nome) && Objects.equals(descrizione, that.descrizione);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nome, descrizione, base_atk, base_def, inc_atk, inc_def);
-    }
-
-    @Override
-    public String toString() {
-        return "Personaggio{" +
-                "nome='" + nome + '\'' +
-                ", descrizione='" + descrizione + '\'' +
-                ", base_atk=" + base_atk +
-                ", base_def=" + base_def +
-                ", inc_atk=" + inc_atk +
-                ", inc_def=" + inc_def +
-                '}';
     }
 }

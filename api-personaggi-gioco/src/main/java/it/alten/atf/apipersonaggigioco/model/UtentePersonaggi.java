@@ -1,10 +1,7 @@
 package it.alten.atf.apipersonaggigioco.model;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class UtentePersonaggi extends Utente {
 
@@ -12,6 +9,7 @@ public class UtentePersonaggi extends Utente {
 
     public UtentePersonaggi(String username, String nome, LocalDate registrazione, Set<Personaggio> personaggi) {
         super(username, nome, registrazione);
+        this.personaggi = new HashSet<Personaggio>();
         setPersonaggi(personaggi);
     }
 

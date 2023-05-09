@@ -1,5 +1,6 @@
 package it.alten.atf.apipersonaggigioco.model;
 import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -19,11 +20,7 @@ public class PersonaggioEntity {
     @NotNull
     private int inc_def; // incremento difesa per livello
 
-    @ManyToMany
-    @JoinTable(
-            name = "personaggio_utente",
-            joinColumns = @JoinColumn(name = "nome_personaggio"),
-            inverseJoinColumns = @JoinColumn(name = "username"))
+    @ManyToMany(mappedBy = "personaggi")
     Set<UtenteEntity> utenti;
 
     public PersonaggioEntity(String nome, String descrizione, int base_atk, int base_def, int inc_atk, int inc_def){

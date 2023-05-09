@@ -1,12 +1,11 @@
 package it.alten.atf.apipersonaggigioco.model;
 
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,11 @@ public class UtenteEntity {
     @NotNull
     private LocalDate registrazione;
 
-    @ManyToMany(mappedBy = "utenti")
+    @ManyToMany
+    @JoinTable(
+            name = "utente_personaggio",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "nome_personaggio"))
     private Set<PersonaggioEntity> personaggi;
 
     public UtenteEntity(String username, String nome, LocalDate registrazione){
@@ -33,9 +36,11 @@ public class UtenteEntity {
 
     }
 
-    public PersonaggioEntity addPersonaggio(PersonaggioEntity pe){
-        this.personaggi.add(pe);
-        return pe;
+    public PersonaggioEntity addPe(PersonaggioEntity pe){
+        Set<PersonaggioEntity> peSet = new HashSet<PersonaggioEntity>();
+        peSet.add(pe);
+        this.setPersonaggi(peSet);
+        return peSet.iterator().next();
     }
 
     public Set<PersonaggioEntity> getPersonaggi() {
@@ -43,7 +48,7 @@ public class UtenteEntity {
     }
 
     public void setPersonaggi(Set<PersonaggioEntity> personaggi) {
-        this.personaggi = personaggi;
+        this.personaggi.addAll(personaggi);
     }
 
     public String getUsername() {

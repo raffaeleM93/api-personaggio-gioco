@@ -3,6 +3,7 @@ package it.alten.atf.apipersonaggigioco.controller;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import it.alten.atf.apipersonaggigioco.model.Personaggio;
+import it.alten.atf.apipersonaggigioco.model.PersonaggioData;
 import it.alten.atf.apipersonaggigioco.model.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.service.PersonaggioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +64,9 @@ public class PersonaggioController {
 
     //UPDATE
     @PutMapping("/{nome}")
-    public ResponseEntity<Personaggio> updatePersonaggio(@RequestBody Personaggio p, @PathVariable String nome){
+    public ResponseEntity<Personaggio> updatePersonaggio(@RequestBody PersonaggioData pd, @PathVariable String nome){
         try{
+            Personaggio p = new Personaggio(nome, pd.getDescrizione(), pd.getBase_atk(), pd.getBase_def(), pd.getInc_atk(), pd.getInc_def());
             Personaggio personaggio = service.updatePersonaggio(p, nome);
             return ResponseEntity.ok(personaggio);
         }

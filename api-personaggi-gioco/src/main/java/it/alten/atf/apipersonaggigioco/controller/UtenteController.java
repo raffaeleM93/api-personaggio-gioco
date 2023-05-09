@@ -3,8 +3,8 @@ package it.alten.atf.apipersonaggigioco.controller;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import it.alten.atf.apipersonaggigioco.model.Personaggio;
-import it.alten.atf.apipersonaggigioco.model.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.model.Utente;
+import it.alten.atf.apipersonaggigioco.model.UtenteData;
 import it.alten.atf.apipersonaggigioco.model.UtentePersonaggi;
 import it.alten.atf.apipersonaggigioco.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,8 @@ public class UtenteController {
     @Autowired
     UtenteService service;
 
-    //CREATE
+    // CREATE
+    // POST: Creazione di un utente [ok]
     @PostMapping("")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Utente creato!", response = Utente.class)
@@ -38,9 +39,10 @@ public class UtenteController {
         }
     }
 
-    //READ
+    // READ
+    // GET: Ritorna tutti gli utenti con i personaggi associati [ok]
     @GetMapping("")
-    public ResponseEntity<List<UtentePersonaggi>> getUtenti(){
+    public ResponseEntity<List<UtentePersonaggi>> getUtentiPersonaggi(){
         try{
             var saved = service.getAllUtentiPersonaggi();
             return ResponseEntity.ok(saved);
@@ -50,10 +52,11 @@ public class UtenteController {
         }
     }
 
+    // GET: Ritorna Utente by username con personaggi associati [ok]
     @GetMapping("/{username}")
-    public ResponseEntity<UtentePersonaggi> getUtente(@PathVariable String username){
+    public ResponseEntity<UtentePersonaggi> getUtentePersonaggi(@PathVariable String username){
         try{
-            UtentePersonaggi p = service.getUtenteByUsername(username);
+            UtentePersonaggi p = service.getUtentePersonaggiByUsername(username);
             return ResponseEntity.ok(p);
         }
         catch(EntityNotFoundException e){
@@ -61,10 +64,12 @@ public class UtenteController {
         }
     }
 
-    //UPDATE
+    // UPDATE
+    // PUT: aggiornamento o creazione Utente
     @PutMapping("/{username}")
-    public ResponseEntity<Utente> updateUtente(@RequestBody Utente u, @PathVariable String username){
+    public ResponseEntity<Utente> updateUtente(@RequestBody UtenteData ud, @PathVariable String username){
         try{
+            Utente u = new Utente(username, ud.getNome(), ud.getRegistrazione());
             Utente utente = service.updateUtente(u, username);
             return ResponseEntity.ok(utente);
         }
@@ -73,7 +78,7 @@ public class UtenteController {
         }
     }
 
-    // Assegna un personaggio a un utente
+    // PUT: Assegna un personaggio a un utente [ok]
     @PutMapping("/{username}/{nome}")
     public ResponseEntity<Personaggio> assignPersonaggio(@PathVariable String username, @PathVariable String nome){
         try{
@@ -85,7 +90,7 @@ public class UtenteController {
         }
     }
 
-    //DELETE
+    // DELETE: elimina un Utente
     @DeleteMapping("/{username}")
     public ResponseEntity<Utente> deleteUtente(@PathVariable String username){
         try{
