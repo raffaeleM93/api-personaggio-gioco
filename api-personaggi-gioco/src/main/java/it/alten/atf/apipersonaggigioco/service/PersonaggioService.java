@@ -1,7 +1,7 @@
 package it.alten.atf.apipersonaggigioco.service;
 
-import it.alten.atf.apipersonaggigioco.model.Personaggio;
-import it.alten.atf.apipersonaggigioco.model.PersonaggioEntity;
+import it.alten.atf.apipersonaggigioco.model.personaggio.Personaggio;
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioEntity;
 import it.alten.atf.apipersonaggigioco.repository.PersonaggioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,21 +61,10 @@ public class PersonaggioService {
     }
 
     public void deletePersonaggioByName(String nome) {
+        PersonaggioEntity pe = personaggioRepository.getReferenceById(nome);
+        for(var ue : pe.getUtenti()){
+            ue.removePersonaggio(pe);
+        }
         personaggioRepository.deleteById(nome);
     }
-
-//    private boolean existByName(String nome) {
-//        try{
-//            PersonaggioEntity pe = personaggioRepository.find(nome);
-//            if(pe == null){
-//                return false;
-//            }
-//            else{
-//                return true;
-//            }
-//        }
-//        catch(EntityNotFoundException e){
-//            return false;
-//        }
-//    }
 }

@@ -1,4 +1,4 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.personaggio;
 
 import java.util.Objects;
 

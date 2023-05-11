@@ -1,7 +1,7 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.utente;
 
 import com.sun.istack.NotNull;
-import org.hibernate.annotations.Cascade;
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -39,8 +39,14 @@ public class UtenteEntity {
     public PersonaggioEntity addPe(PersonaggioEntity pe){
         Set<PersonaggioEntity> peSet = new HashSet<PersonaggioEntity>();
         peSet.add(pe);
+        pe.addUe(this);
         this.setPersonaggi(peSet);
         return peSet.iterator().next();
+    }
+
+    public void removePersonaggio(PersonaggioEntity pe){
+        this.personaggi.remove(pe);
+        pe.removeUtente(this);
     }
 
     public Set<PersonaggioEntity> getPersonaggi() {

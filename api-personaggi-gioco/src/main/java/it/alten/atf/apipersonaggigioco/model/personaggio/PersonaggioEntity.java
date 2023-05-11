@@ -1,7 +1,9 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.personaggio;
 import com.sun.istack.NotNull;
+import it.alten.atf.apipersonaggigioco.model.utente.UtenteEntity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -92,4 +94,14 @@ public class PersonaggioEntity {
         this.inc_def = inc_def;
     }
 
+    public UtenteEntity addUe(UtenteEntity ue){
+        Set<UtenteEntity> ueSet = new HashSet<UtenteEntity>();
+        ueSet.add(ue);
+        this.setUtenti(ueSet);
+        return ueSet.iterator().next();
+    }
+
+    public void removeUtente(UtenteEntity ue){
+        this.utenti.remove(ue);
+    }
 }

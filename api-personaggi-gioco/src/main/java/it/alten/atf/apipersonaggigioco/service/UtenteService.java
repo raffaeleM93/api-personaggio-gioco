@@ -1,6 +1,10 @@
 package it.alten.atf.apipersonaggigioco.service;
 
-import it.alten.atf.apipersonaggigioco.model.*;
+import it.alten.atf.apipersonaggigioco.model.personaggio.Personaggio;
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioEntity;
+import it.alten.atf.apipersonaggigioco.model.utente.Utente;
+import it.alten.atf.apipersonaggigioco.model.utente.UtenteEntity;
+import it.alten.atf.apipersonaggigioco.model.utente.UtentePersonaggi;
 import it.alten.atf.apipersonaggigioco.repository.PersonaggioRepository;
 import it.alten.atf.apipersonaggigioco.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,7 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.partita;
+
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioLevelPartita;
+import it.alten.atf.apipersonaggigioco.model.utente.UtentePersonaggi;
 
 public class Partita {
 

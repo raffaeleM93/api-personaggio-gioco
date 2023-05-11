@@ -2,9 +2,9 @@ package it.alten.atf.apipersonaggigioco.controller;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import it.alten.atf.apipersonaggigioco.model.Personaggio;
-import it.alten.atf.apipersonaggigioco.model.PersonaggioData;
-import it.alten.atf.apipersonaggigioco.model.PersonaggioLevel;
+import it.alten.atf.apipersonaggigioco.model.personaggio.Personaggio;
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioData;
+import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.service.PersonaggioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

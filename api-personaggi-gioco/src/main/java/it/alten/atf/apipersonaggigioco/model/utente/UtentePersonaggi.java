@@ -1,4 +1,6 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.utente;
+
+import it.alten.atf.apipersonaggigioco.model.personaggio.Personaggio;
 
 import java.time.LocalDate;
 import java.util.*;

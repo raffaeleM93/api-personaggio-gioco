@@ -1,4 +1,4 @@
-package it.alten.atf.apipersonaggigioco.model;
+package it.alten.atf.apipersonaggigioco.model.personaggio;
 
 public class PersonaggioLevelPartita extends PersonaggioLevel{
 
