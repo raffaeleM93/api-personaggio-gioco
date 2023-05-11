@@ -14,6 +14,10 @@ public class PersonaggioLevel {
         this.level_def = this.difesa(level, p.getBase_def(), p.getInc_def());
     }
 
+    public PersonaggioLevel(){
+
+    }
+
     public String getNome() {
         return nome;
     }
