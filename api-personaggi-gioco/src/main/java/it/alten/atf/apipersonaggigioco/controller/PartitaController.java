@@ -51,7 +51,7 @@ public class PartitaController {
 
     // UPDATE
 
-    // gioca partita
+    // gioca partita [ok]
     @PutMapping("/gioca/{uuid}")
     public ResponseEntity<Partita> giocaPartita(@PathVariable UUID uuid){
         try{
@@ -63,7 +63,7 @@ public class PartitaController {
         }
     }
 
-    // termina gioco
+    // termina gioco [ok]
     @PutMapping("/termina")
     public ResponseEntity<InfoGioco> terminaGioco(){
         try{

@@ -160,6 +160,10 @@ public class PartitaService {
             infoGiocoEntity.incKOutente2();
         }
 
+        PartitaEntity pe_last = (PartitaEntity) infoGiocoEntity.getPartite().toArray()[infoGiocoEntity.getPartite().size()-1];
+        pe_last.setVincitore(pe.getVincitore());
+        pe_last.setStato(pe.getStato());
+
         partitaRepository.flush();
         infoGiocoRepository.saveAndFlush(infoGiocoEntity);
 
@@ -172,7 +176,6 @@ public class PartitaService {
         InfoGioco info;
 
         if(infoGiocoEntity != null){
-            System.out.println("sono nel if");
 
             Set<PartitaEntity> peSet = infoGiocoEntity.getPartite();
             Set<Partita> pSet = new HashSet<Partita>();
@@ -201,7 +204,6 @@ public class PartitaService {
             infoGiocoEntity = new InfoGiocoEntity();
         }
         else{
-            System.out.println("sono nel else");
             throw new NoSuchElementException("Non esiste un gioco avviato!");
         }
 

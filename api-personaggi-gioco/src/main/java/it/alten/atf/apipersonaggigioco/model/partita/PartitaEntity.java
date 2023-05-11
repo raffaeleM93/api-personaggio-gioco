@@ -109,7 +109,7 @@ public class PartitaEntity {
         return stato;
     }
 
-    private void setStato(StatoPartita stato) {
+    public void setStato(StatoPartita stato) {
         this.stato = stato;
     }
 
