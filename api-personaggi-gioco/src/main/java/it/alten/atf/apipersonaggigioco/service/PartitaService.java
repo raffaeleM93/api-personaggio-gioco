@@ -37,6 +37,7 @@ public class PartitaService {
 
         Set<PersonaggioEntity> pu1 = ue1.getPersonaggi();
         Set<PersonaggioEntity> pu2 = ue2.getPersonaggi();
+
         PersonaggioEntity pe1 = null;
         PersonaggioEntity pe2 = null;
 
@@ -48,6 +49,7 @@ public class PartitaService {
             if(pe.getNome().equals(gp.getPersonaggio1())){
                 pe1 = pe;
                 b = true;
+                break;
             }
         }
         while(value1.hasNext());
@@ -64,6 +66,7 @@ public class PartitaService {
             if(pe.getNome().equals(gp.getPersonaggio2())){
                 pe2 = pe;
                 b = true;
+                break;
             }
         }
         while(value2.hasNext());
@@ -77,10 +80,9 @@ public class PartitaService {
         partitaRepository.save(pe);
         partitaRepository.flush();
 
-        if(infoGiocoEntity.getPartite().isEmpty()){
-            infoGiocoEntity.addPartita(pe);
-            infoGiocoRepository.save(infoGiocoEntity);
-        }
+        infoGiocoEntity.addPartita(pe);
+        infoGiocoRepository.save(infoGiocoEntity);
+
         return pe.getId();
     }
 
