@@ -6,7 +6,6 @@ import it.alten.atf.apipersonaggigioco.model.partita.GiocatoriPartita;
 import it.alten.atf.apipersonaggigioco.model.partita.InfoGioco;
 import it.alten.atf.apipersonaggigioco.model.partita.Partita;
 import it.alten.atf.apipersonaggigioco.model.personaggio.Personaggio;
-import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioData;
 import it.alten.atf.apipersonaggigioco.model.personaggio.PersonaggioLevel;
 import it.alten.atf.apipersonaggigioco.service.PartitaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -32,8 +30,13 @@ public class PartitaController {
             @ApiResponse(code = 201, message = "Partita creata!", response = Personaggio.class)
     }) // --> ?
     public ResponseEntity<UUID> creaPartita(@RequestBody GiocatoriPartita gp){
-        UUID saved = service.creaPartita(gp);
-        return ResponseEntity.created(null).body(saved);
+        try{
+            UUID saved = service.creaPartita(gp);
+            return ResponseEntity.created(null).body(saved);
+        }
+        catch(IllegalArgumentException e){
+            return new ResponseEntity<UUID>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     // READ [ok]

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PartitaService {
@@ -37,8 +34,43 @@ public class PartitaService {
 
         UtenteEntity ue1 = utenteRepository.getReferenceById(gp.getUtente1());
         UtenteEntity ue2 = utenteRepository.getReferenceById(gp.getUtente2());
-        PersonaggioEntity pe1 = personaggioRepository.getReferenceById(gp.getPersonaggio1());
-        PersonaggioEntity pe2 = personaggioRepository.getReferenceById(gp.getPersonaggio2());
+
+        Set<PersonaggioEntity> pu1 = ue1.getPersonaggi();
+        Set<PersonaggioEntity> pu2 = ue2.getPersonaggi();
+        PersonaggioEntity pe1 = null;
+        PersonaggioEntity pe2 = null;
+
+        Iterator<PersonaggioEntity> value1 = pu1.iterator();
+        boolean b = false;
+
+        do{
+            PersonaggioEntity pe = (PersonaggioEntity) value1.next();
+            if(pe.getNome().equals(gp.getPersonaggio1())){
+                pe1 = pe;
+                b = true;
+            }
+        }
+        while(value1.hasNext());
+
+        if(!b){
+            throw new IllegalArgumentException();
+        }
+
+        b = false;
+        Iterator<PersonaggioEntity> value2 = pu2.iterator();
+
+        do{
+            PersonaggioEntity pe = (PersonaggioEntity) value2.next();
+            if(pe.getNome().equals(gp.getPersonaggio2())){
+                pe2 = pe;
+                b = true;
+            }
+        }
+        while(value2.hasNext());
+
+        if(!b){
+            throw new IllegalArgumentException();
+        }
 
         PartitaEntity pe = new PartitaEntity(ue1, ue2, pe1, pe2);
 
