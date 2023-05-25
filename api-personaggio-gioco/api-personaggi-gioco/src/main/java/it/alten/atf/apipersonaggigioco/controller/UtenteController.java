@@ -8,8 +8,11 @@ import it.alten.atf.apipersonaggigioco.model.utente.UtenteData;
 import it.alten.atf.apipersonaggigioco.model.utente.UtentePersonaggi;
 import it.alten.atf.apipersonaggigioco.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -29,8 +32,10 @@ public class UtenteController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Utente creato!", response = Utente.class)
     }) // --> ?
-    public ResponseEntity<Utente> creaUtente(@RequestBody Utente u){
+    @PreAuthorize("hasAuthority('group_admins')")
+    public ResponseEntity<Utente> creaUtente(@RequestBody Utente u, Authentication authentication){
         try{
+            System.out.println("auth: " + authentication);
             Utente saved = service.saveUtente(u);
             return ResponseEntity.created(null).body(saved);
         }
